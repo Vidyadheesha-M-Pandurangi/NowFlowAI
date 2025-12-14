@@ -1,0 +1,5 @@
+{
+  "name": "NowFlowAI",
+  "description": "Real-time, AI-powered technology news companion providing accurate summaries and cited answers using Google Gemini.",
+  "requestFramePermissions": []
+}
