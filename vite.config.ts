@@ -12,14 +12,12 @@ export default defineConfig(({ mode }) => {
         base: './', 
         
         server: {
-            // Note: These settings only affect local development server (vite dev)
             port: 3000,
             host: '0.0.0.0',
         },
         plugins: [react()],
         
-        // --- REMOVED: THE 'define' BLOCK IS GONE ---
-        // The API key is now handled dynamically by the entrypoint script (Step 3).
+        // --- The 'define' block remains removed for security and dynamic injection ---
         
         resolve: {
             alias: {
