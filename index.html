@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>NowFlowAI - Intelligent Tech News</title>
     
-    <!-- Environment Polyfill for React/GenAI SDK -->
     <script>
+      // 1. Initialize process.env for build-time variables
       if (typeof process === 'undefined') {
         window.process = { env: {} };
       }
+      
+      // 2. Initialize runtime ENV for dynamic injection.
+      // THIS PLACEHOLDER WILL BE REPLACED BY THE docker-entrypoint.sh SCRIPT 
+      // with the actual GEMINI_API_KEY value from the Cloud Run environment.
+      window.ENV = { 
+          GEMINI_API_KEY: "YOUR_RUNTIME_GEMINI_KEY_PLACEHOLDER" 
+      };
     </script>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
