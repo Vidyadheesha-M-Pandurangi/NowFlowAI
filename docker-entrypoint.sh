@@ -5,7 +5,7 @@ set -e
 INDEX_FILE="/usr/share/nginx/html/index.html"
 
 # Substitute the secret environment variable into the index.html file.
-# The value of $GEMINI_API_KEY is provided by the Cloud Run environment settings.
+# We replace the placeholder with the actual value of $GEMINI_API_KEY from the Cloud Run environment.
 sed -i "s|YOUR_RUNTIME_GEMINI_KEY_PLACEHOLDER|$GEMINI_API_KEY|g" $INDEX_FILE
 
 # Execute the main Nginx command (runs Nginx in the foreground)
