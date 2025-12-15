@@ -10,6 +10,8 @@ COPY package*.json ./
 
 # Write the secret API key into a .env.local file using the build argument
 ARG GEMINI_API_KEY
+# This step is harmless as the key is not defined in the vite config, 
+# but we are keeping the ARG for general build system robustness.
 RUN echo "VITE_GEMINI_API_KEY=${GEMINI_API_KEY}" > .env.local
 
 # Install dependencies
@@ -17,7 +19,6 @@ RUN npm install
 
 # Copy source code and build
 COPY . .
-# The build output will be in /app/dist due to the default Vite config
 RUN npm run build
 
 
@@ -36,9 +37,15 @@ RUN rm /etc/nginx/conf.d/default.conf
 # Copy the CORRECTED custom nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy the built React app from the 'builder' stage into the Nginx web root
-# We assume the output folder is 'dist' based on standard Vite settings.
+# Copy the built React app 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Run Nginx in the foreground, which is required by Cloud Run
+# Copy the start-up script and make it executable
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Use the script as the entrypoint. It runs the sed command and then starts Nginx.
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+# The CMD is the default Nginx command executed by the entrypoint script
 CMD ["nginx", "-g", "daemon off;"]
